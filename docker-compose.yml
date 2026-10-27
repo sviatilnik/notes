@@ -1,0 +1,36 @@
+name: notes
+
+services:
+  php:
+    build:
+      context: ./backend
+      target: production
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: "0"
+      APP_SECRET: notes-demo-secret
+      DATABASE_URL: sqlite:///%kernel.project_dir%/var/data/notes.db
+    volumes:
+      - notes_data:/var/www/html/var/data
+    networks:
+      - notes
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./frontend
+      target: production
+    ports:
+      - "8080:80"
+    depends_on:
+      - php
+    networks:
+      - notes
+    restart: unless-stopped
+
+volumes:
+  notes_data:
+
+networks:
+  notes:
+    driver: bridge

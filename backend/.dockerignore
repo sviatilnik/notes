@@ -1,0 +1,12 @@
+vendor
+var
+.git
+.phpunit.cache
+tests
+phpunit.xml.dist
+.env.test
+.env.local
+.env.*.local
+README.md
+Dockerfile
+.dockerignore

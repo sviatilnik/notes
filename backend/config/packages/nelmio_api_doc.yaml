@@ -1,0 +1,78 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Notes API
+            description: REST API мини-сервиса заметок
+            version: 1.0.0
+        tags:
+            - name: Notes
+              description: Операции с заметками
+        components:
+            schemas:
+                Note:
+                    type: object
+                    required: [id, title, content, createdAt, updatedAt]
+                    properties:
+                        id:
+                            type: string
+                            format: uuid
+                            example: 550e8400-e29b-41d4-a716-446655440000
+                        title:
+                            type: string
+                            example: Список покупок
+                        content:
+                            type: string
+                            example: Молоко, хлеб, яйца
+                        createdAt:
+                            type: string
+                            format: date-time
+                        updatedAt:
+                            type: string
+                            format: date-time
+                NoteList:
+                    type: object
+                    required: [items, total]
+                    properties:
+                        items:
+                            type: array
+                            items:
+                                $ref: '#/components/schemas/Note'
+                        total:
+                            type: integer
+                            example: 12
+                NoteInput:
+                    type: object
+                    required: [title, content]
+                    properties:
+                        title:
+                            type: string
+                            maxLength: 255
+                            example: Список покупок
+                        content:
+                            type: string
+                            maxLength: 20000
+                            example: Молоко, хлеб, яйца
+                ValidationError:
+                    type: object
+                    properties:
+                        error:
+                            type: string
+                            example: Ошибка валидации
+                        violations:
+                            type: array
+                            items:
+                                type: object
+                                properties:
+                                    field:
+                                        type: string
+                                    message:
+                                        type: string
+                NotFoundError:
+                    type: object
+                    properties:
+                        error:
+                            type: string
+                            example: Заметка не найдена
+    areas:
+        path_patterns:
+            - ^/api(?!/doc)
